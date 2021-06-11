@@ -1,0 +1,41 @@
+<h2 mat-dialog-title class="row">
+    {{label}}
+    <div class="flex-spacer"></div>
+    <button mat-icon-button mat-dialog-close>
+        <mat-icon>close</mat-icon>
+    </button>
+</h2>
+<mat-dialog-content [formGroup]="form">
+    <div class="column">
+        <mat-form-field>
+            <mat-label>Group</mat-label>
+            <mat-select [compareWith]="compareIds" [formControl]="group">
+                <mat-option *ngFor="let group of domain.groups" [value]="group">{{group.name}}</mat-option>
+            </mat-select>
+        </mat-form-field>
+        <mat-form-field>
+            <mat-label>Name</mat-label>
+            <input type="text" matInput formControlName="name" required>
+        </mat-form-field>
+        <mat-form-field>
+            <mat-label>Application port</mat-label>
+            <input type="text" matInput formControlName="appPort" required>
+        </mat-form-field>
+        <mat-form-field>
+            <mat-label>Netscaler IP</mat-label>
+            <input type="text" matInput formControlName="netscalerIP" required>
+        </mat-form-field>
+        <mat-form-field>
+            <mat-label>Netscaler URL</mat-label>
+            <input type="text" matInput formControlName="netscalerURL" required>
+        </mat-form-field>
+        <mat-form-field>
+            <mat-label>Description</mat-label>
+            <textarea cdkTextareaAutosize cdkAutosizeMinRows="2" matInput formControlName="description"></textarea>
+        </mat-form-field>
+    </div>
+</mat-dialog-content>
+<mat-dialog-actions align="end">
+    <button mat-button mat-dialog-close>Cancel</button>
+    <button mat-button color="primary" (click)="update()" [disabled]="form.invalid || group.invalid">OK</button>
+</mat-dialog-actions>

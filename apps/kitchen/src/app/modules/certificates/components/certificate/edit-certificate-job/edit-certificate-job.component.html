@@ -1,0 +1,42 @@
+<h2 mat-dialog-title class="row">
+    All known jobs for current certificate
+    <div class="flex-spacer"></div>
+    <button mat-icon-button mat-dialog-close>
+        <mat-icon>close</mat-icon>
+    </button>
+</h2>
+
+<mat-dialog-content>
+    <div class="jobs">
+        <kitchen-certificate-job *ngFor="let item of data.jobs" [item]="item"></kitchen-certificate-job>
+    </div>
+
+    <h4 class="mat-h4">
+        You may edit the last job
+    </h4>
+    <mat-form-field class="content">
+        <mat-label>Emails for notification</mat-label>
+        <mat-chip-list #chipList aria-label="Email selection">
+            <mat-chip
+                *ngFor="let email of emails"
+                (removed)="remove(email)">
+                {{email}}
+                <mat-icon matChipRemove>cancel</mat-icon>
+            </mat-chip>
+            <input
+                placeholder="New email"
+                [formControl]="email"
+                [matChipInputFor]="chipList"
+                [matChipInputAddOnBlur]="true"
+                (matChipInputTokenEnd)="add($event)">
+        </mat-chip-list>
+        <mat-error>
+            Invalid email
+        </mat-error>
+    </mat-form-field>
+
+</mat-dialog-content>
+<mat-dialog-actions align="end">
+    <button mat-button mat-dialog-close>Cancel</button>
+    <button mat-button color="primary" (click)="submit()">OK</button>
+</mat-dialog-actions>

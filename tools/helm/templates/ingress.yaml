@@ -1,0 +1,23 @@
+{{- range $key, $ingress := .Values.ingress }}
+---
+apiVersion: networking.k8s.io/v1beta1
+kind: Ingress
+metadata:
+  name: kitchen-ingress
+  annotations:
+    ingress.citrix.com/frontend-ip: "{{ $ingress.frontendIP }}"
+    ingress.citrix.com/insecure-termination: "{{ $ingress.termination  }}"
+    ingress.citrix.com/insecure-port: "{{ $ingress.insecurePort }}"
+    kubernetes.io/ingress.class: "vpx"
+spec:
+  rules:
+  - host: {{ $ingress.host }}
+    http:
+      paths:
+      {{- range $ingress.paths }}
+        - path: {{ .path }}
+          backend:
+            serviceName: {{ .backend.serviceName }}
+            servicePort: {{ .backend.servicePort }}
+      {{- end }}
+{{- end -}}

@@ -1,0 +1,3 @@
+<ng-container *ngIf="authService.accountInfo$ | async as account">
+    <y-employee [info]="account"></y-employee>
+</ng-container>

@@ -1,0 +1,41 @@
+<img *ngIf="info.photo" class="mat-elevation-z6 avatar" [src]="info.photo | safe: 'url'"/>
+<mat-list dense>
+    <mat-list-item>
+        <span class="label">Login</span>
+        <span class="data">{{info.username}}</span>
+    </mat-list-item>
+    <mat-list-item>
+        <span class="label">Mail</span>
+        <span class="data">{{info.mail}}</span>
+    </mat-list-item>
+    <mat-list-item>
+        <span class="label">Phone</span>
+        <span class="data">{{info.mobile}}</span>
+    </mat-list-item>
+    <mat-list-item>
+        <span class="label">Birthdate</span>
+        <span class="data">{{info.birthDate}}</span>
+    </mat-list-item>
+    <mat-list-item>
+        <span class="label">City</span>
+        <span class="data">{{info.city}}</span>
+    </mat-list-item>
+    <mat-list-item>
+        <span class="label">Department</span>
+        <span class="data">{{info.department}}</span>
+    </mat-list-item>
+    <mat-list-item>
+        <span class="label">Division</span>
+        <span class="data">{{info.division}}</span>
+    </mat-list-item>
+    <mat-list-item>
+        <span class="label">In company since</span>
+        <span class="data">{{info.inDate}}</span>
+    </mat-list-item>
+    <mat-list-item *ngIf="info.vkID">
+        <span class="label">VK profile</span>
+        <span class="data"><a target="_blank" [href]="info.vkProfileLink">{{info.vkID}}</a></span>
+        <button mat-button color="warn" (click)="openChoice()">CHOICE</button>
+    </mat-list-item>
+    <y-user-groups [info]="info.groups"></y-user-groups>
+</mat-list>

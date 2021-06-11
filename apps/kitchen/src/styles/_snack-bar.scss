@@ -1,0 +1,13 @@
+@import './variables';
+
+.snack-bar {
+    &_error {
+        background-color: $warn-color;
+    }
+
+    &_success {
+        background-color: $primary-color;
+    }
+}
+
+

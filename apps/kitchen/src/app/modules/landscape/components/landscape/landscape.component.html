@@ -1,0 +1,19 @@
+<mat-toolbar>
+    <mat-toolbar-row>
+        <a mat-button [routerLink]="['tree']" routerLinkActive="mat-primary" (mouseenter)="trigger.closeMenu()">Edit landscape tree</a>
+        <a mat-button [routerLink]="['search']" routerLinkActive="mat-primary" [matMenuTriggerFor]="search"
+           #trigger="matMenuTrigger" (mouseenter)="trigger.openMenu()"
+        >
+            Search by table view
+        </a>
+    </mat-toolbar-row>
+</mat-toolbar>
+
+<mat-menu #search [hasBackdrop]="false" overlapTrigger="false">
+    <span (mouseleave)="trigger.closeMenu()">
+        <a mat-menu-item [routerLink]="['search/kuber']" routerLinkActive="mat-primary">By kubernetes</a>
+        <a mat-menu-item [routerLink]="['search/host']" routerLinkActive="mat-primary">By hosts</a>
+    </span>
+</mat-menu>
+
+<router-outlet></router-outlet>

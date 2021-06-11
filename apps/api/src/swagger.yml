@@ -1,0 +1,1561 @@
+openapi: 3.0.0
+info:
+  title: Kitchen OpenAPI
+  description: Kitchen StaticSettings description
+  version: 1.0.0
+  contact:
+    name: Vladimir Shabalin
+    url: 'https://github.com/mustordont'
+    email: mustordont@gmail.com
+tags:
+  - name: kitchen
+    description: ''
+  - name: landscape
+    description: ''
+servers: []
+components:
+  securitySchemes:
+    bearer:
+      scheme: bearer
+      bearerFormat: JWT
+      type: http
+  schemas:
+    KitchenAboutDto:
+      type: object
+      properties:
+        authors:
+          type: array
+          items:
+            type: string
+        apiVersion:
+          type: string
+      required:
+        - authors
+        - apiVersion
+    KitchenAccountGroupEntity:
+      type: object
+      properties:
+        id:
+          type: number
+        name:
+          type: string
+        ctx:
+          type: boolean
+      required:
+        - id
+        - name
+        - ctx
+    KitchenAccountEntity:
+      type: object
+      properties:
+        id:
+          type: number
+        name:
+          type: string
+        fullName:
+          type: string
+        username:
+          type: string
+        mail:
+          type: string
+        mobile:
+          type: string
+        birthDate:
+          type: string
+        city:
+          type: string
+        title:
+          type: string
+        department:
+          type: string
+        division:
+          type: string
+        inDate:
+          type: string
+        vkID:
+          type: string
+        thumbnailPhoto:
+          type: string
+        groups:
+          type: array
+          items:
+            $ref: '#/components/schemas/KitchenAccountGroupEntity'
+      required:
+        - id
+        - name
+        - fullName
+        - username
+        - mail
+        - mobile
+        - birthDate
+        - city
+        - title
+        - department
+        - division
+        - inDate
+        - vkID
+        - thumbnailPhoto
+        - groups
+    HttpException:
+      type: object
+      properties: {}
+    ApplicationEntity:
+      type: object
+      properties:
+        id:
+          type: number
+        created:
+          type: string
+        updated:
+          type: string
+        name:
+          type: string
+        appPort:
+          type: number
+        netscalerIP:
+          type: string
+        netscalerURL:
+          type: string
+        description:
+          type: string
+      required:
+        - id
+        - name
+        - appPort
+        - netscalerIP
+        - netscalerURL
+        - description
+    HostEntity:
+      type: object
+      properties:
+        id:
+          type: number
+        created:
+          type: string
+        updated:
+          type: string
+        applications:
+          type: array
+          items:
+            $ref: '#/components/schemas/ApplicationEntity'
+        ip:
+          type: string
+        dnsname:
+          type: string
+        os:
+          type: string
+        cpu:
+          type: number
+        ram:
+          type: number
+        hdd:
+          type: number
+        auth:
+          type: string
+        citrix:
+          type: string
+        description:
+          type: string
+      required:
+        - id
+        - applications
+        - ip
+        - dnsname
+        - os
+        - cpu
+        - ram
+        - hdd
+        - auth
+        - citrix
+        - description
+    NetworkEntity:
+      type: object
+      properties:
+        id:
+          type: number
+        created:
+          type: string
+        updated:
+          type: string
+        production:
+          type: boolean
+        base:
+          type: string
+        mask:
+          type: string
+        vos:
+          type: number
+        vlan:
+          type: number
+        description:
+          type: string
+        hosts:
+          type: array
+          items:
+            $ref: '#/components/schemas/HostEntity'
+      required:
+        - id
+        - production
+        - base
+        - mask
+        - vos
+        - vlan
+        - description
+        - hosts
+    GroupEntity:
+      type: object
+      properties:
+        id:
+          type: number
+        created:
+          type: string
+        updated:
+          type: string
+        name:
+          type: string
+        applications:
+          type: array
+          items:
+            $ref: '#/components/schemas/ApplicationEntity'
+      required:
+        - id
+        - name
+        - applications
+    KuberEntity:
+      type: object
+      properties:
+        id:
+          type: number
+        created:
+          type: string
+        updated:
+          type: string
+        namespace:
+          type: string
+        applications:
+          type: array
+          items:
+            $ref: '#/components/schemas/ApplicationEntity'
+      required:
+        - id
+        - namespace
+        - applications
+    DomainEntity:
+      type: object
+      properties:
+        id:
+          type: number
+        created:
+          type: string
+        updated:
+          type: string
+        name:
+          type: string
+        networks:
+          type: array
+          items:
+            $ref: '#/components/schemas/NetworkEntity'
+        groups:
+          type: array
+          items:
+            $ref: '#/components/schemas/GroupEntity'
+        kubers:
+          type: array
+          items:
+            $ref: '#/components/schemas/KuberEntity'
+      required:
+        - id
+        - name
+        - networks
+        - groups
+        - kubers
+    LandscapeSearchRequestKuberDto:
+      type: object
+      properties:
+        page:
+          type: number
+        pageSize:
+          type: number
+        domain:
+          type: number
+        group:
+          type: number
+        kuber:
+          type: number
+          description: kuber id
+      required:
+        - page
+        - pageSize
+    LandscapeSearchKuberResultDto:
+      type: object
+      properties:
+        domain_id:
+          type: number
+        domain_created:
+          type: string
+        domain_name:
+          type: string
+        group_id:
+          type: number
+        group_created:
+          type: string
+        group_name:
+          type: string
+        kuber_id:
+          type: number
+        kuber_created:
+          type: string
+        kuber_namespace:
+          type: string
+        application_id:
+          type: number
+        application_name:
+          type: string
+        application_app_port:
+          type: number
+        application_created:
+          type: string
+        application_netscaler_ip:
+          type: string
+        application_netscaler_url:
+          type: string
+        application_description:
+          type: string
+      required:
+        - domain_id
+        - domain_created
+        - domain_name
+        - group_id
+        - group_created
+        - group_name
+        - kuber_id
+        - kuber_created
+        - kuber_namespace
+        - application_id
+        - application_name
+        - application_app_port
+        - application_created
+        - application_netscaler_ip
+        - application_netscaler_url
+        - application_description
+    LandscapeSearchKuberPageDto:
+      type: object
+      properties:
+        page:
+          type: number
+        total:
+          type: number
+        pageSize:
+          type: number
+        items:
+          type: array
+          items:
+            $ref: '#/components/schemas/LandscapeSearchKuberResultDto'
+      required:
+        - page
+        - total
+        - pageSize
+        - items
+    LandscapeSearchRequestHostDto:
+      type: object
+      properties:
+        page:
+          type: number
+        pageSize:
+          type: number
+        domain:
+          type: number
+        group:
+          type: number
+        host:
+          type: number
+          description: host id
+      required:
+        - page
+        - pageSize
+    LandscapeSearchHostResultDto:
+      type: object
+      properties:
+        domain_id:
+          type: number
+        domain_created:
+          type: string
+        domain_name:
+          type: string
+        group_id:
+          type: number
+        group_created:
+          type: string
+        group_name:
+          type: string
+        network_id:
+          type: number
+        network_created:
+          type: string
+        network_production:
+          type: boolean
+        network_base:
+          type: string
+        network_mask:
+          type: string
+        network_vlan:
+          type: number
+        network_vos:
+          type: number
+        network_description:
+          type: string
+        host_id:
+          type: number
+        host_created:
+          type: string
+        host_auth:
+          type: string
+        host_citrix:
+          type: string
+        host_cpu:
+          type: number
+        host_dnsname:
+          type: string
+        host_hdd:
+          type: number
+        host_ip:
+          type: string
+        host_os:
+          type: string
+        host_ram:
+          type: number
+        host_description:
+          type: string
+        application_id:
+          type: number
+        application_name:
+          type: string
+        application_app_port:
+          type: number
+        application_created:
+          type: string
+        application_netscaler_ip:
+          type: string
+        application_netscaler_url:
+          type: string
+        application_description:
+          type: string
+      required:
+        - domain_id
+        - domain_created
+        - domain_name
+        - group_id
+        - group_created
+        - group_name
+        - network_id
+        - network_created
+        - network_production
+        - network_base
+        - network_mask
+        - network_vlan
+        - network_vos
+        - network_description
+        - host_id
+        - host_created
+        - host_auth
+        - host_citrix
+        - host_cpu
+        - host_dnsname
+        - host_hdd
+        - host_ip
+        - host_os
+        - host_ram
+        - host_description
+        - application_id
+        - application_name
+        - application_app_port
+        - application_created
+        - application_netscaler_ip
+        - application_netscaler_url
+        - application_description
+    LandscapeSearchHostPageDto:
+      type: object
+      properties:
+        page:
+          type: number
+        total:
+          type: number
+        pageSize:
+          type: number
+        items:
+          type: array
+          items:
+            $ref: '#/components/schemas/LandscapeSearchHostResultDto'
+      required:
+        - page
+        - total
+        - pageSize
+        - items
+    CertificateJobEntity:
+      type: object
+      properties:
+        id:
+          type: number
+        created:
+          type: string
+        updated:
+          type: string
+        emails:
+          type: string
+        status:
+          type: object
+      required:
+        - id
+        - emails
+        - status
+    CertEntity:
+      type: object
+      properties:
+        id:
+          type: number
+        created:
+          type: string
+        updated:
+          type: string
+        validFrom:
+          type: string
+        validTo:
+          type: string
+        subject:
+          type: string
+        alertDate:
+          type: string
+        jobs:
+          type: array
+          items:
+            $ref: '#/components/schemas/CertificateJobEntity'
+      required:
+        - id
+        - validFrom
+        - validTo
+        - subject
+        - alertDate
+        - jobs
+    CertificateAnalyzeDto:
+      type: object
+      properties:
+        name:
+          type: string
+        file:
+          type: string
+        status:
+          type: object
+        certs:
+          type: array
+          items:
+            $ref: '#/components/schemas/CertEntity'
+      required:
+        - name
+        - file
+        - status
+        - certs
+    CertFileEntity:
+      type: object
+      properties:
+        id:
+          type: number
+        created:
+          type: string
+        updated:
+          type: string
+        name:
+          type: string
+        file:
+          type: string
+        status:
+          type: object
+        certs:
+          type: array
+          items:
+            $ref: '#/components/schemas/CertEntity'
+      required:
+        - id
+        - name
+        - file
+        - status
+        - certs
+paths:
+  /api:
+    get:
+      operationId: AboutController_getAbout
+      parameters: []
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/KitchenAboutDto'
+      tags:
+        - kitchen
+  /api/account:
+    get:
+      operationId: AccountController_getAccountInfo
+      parameters:
+        - name: authorization
+          in: header
+          description: authorization header
+          schema:
+            type: string
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/KitchenAccountEntity'
+        '500':
+          description: ''
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HttpException'
+      tags:
+        - kitchen
+      security:
+        - bearer: []
+  /api/employee/search:
+    post:
+      operationId: EmployeeController_search
+      parameters: []
+      responses:
+        '201':
+          description: ''
+      tags:
+        - kitchen
+  /api/choice:
+    post:
+      operationId: ChoiceController_generateToken
+      parameters: []
+      responses:
+        '201':
+          description: ''
+      tags:
+        - kitchen
+  /api/auth/login:
+    post:
+      operationId: AuthController_login
+      parameters: []
+      responses:
+        '201':
+          description: ''
+      tags: &ref_0
+        - kitchen
+  /api/auth/refresh:
+    get:
+      operationId: AuthController_refresh
+      parameters: []
+      responses:
+        '200':
+          description: ''
+      tags: *ref_0
+  /api/landscape/domain:
+    get:
+      operationId: DomainController_findAll
+      parameters: []
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/DomainEntity'
+      tags: &ref_1
+        - landscape
+    post:
+      operationId: DomainController_create
+      parameters: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/DomainEntity'
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DomainEntity'
+      tags: *ref_1
+  '/api/landscape/domain/{id}/network':
+    post:
+      operationId: DomainController_addNetwork
+      parameters:
+        - name: id
+          required: true
+          in: path
+          schema:
+            type: number
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/NetworkEntity'
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DomainEntity'
+      tags: *ref_1
+  '/api/landscape/domain/{id}/group':
+    post:
+      operationId: DomainController_addGroup
+      parameters:
+        - name: id
+          required: true
+          in: path
+          schema:
+            type: number
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/GroupEntity'
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DomainEntity'
+      tags: *ref_1
+  '/api/landscape/domain/{id}/kuber':
+    post:
+      operationId: DomainController_addKuber
+      parameters:
+        - name: id
+          required: true
+          in: path
+          schema:
+            type: number
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/KuberEntity'
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DomainEntity'
+      tags: *ref_1
+  '/api/landscape/domain/{id}':
+    get:
+      operationId: DomainController_findOne
+      parameters:
+        - name: id
+          required: true
+          in: path
+          schema:
+            type: number
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DomainEntity'
+      tags: *ref_1
+    put:
+      operationId: DomainController_update
+      parameters:
+        - name: id
+          required: true
+          in: path
+          schema:
+            type: number
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/DomainEntity'
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DomainEntity'
+      tags: *ref_1
+    delete:
+      operationId: DomainController_delete
+      parameters:
+        - name: id
+          required: true
+          in: path
+          schema:
+            type: number
+      responses:
+        '200':
+          description: ''
+      tags: *ref_1
+  /api/landscape/group:
+    get:
+      operationId: GroupController_findAll
+      parameters: []
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/GroupEntity'
+      tags: &ref_2
+        - landscape
+  '/api/landscape/group/{id}':
+    get:
+      operationId: GroupController_findOne
+      parameters:
+        - name: id
+          required: true
+          in: path
+          schema:
+            type: number
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GroupEntity'
+      tags: *ref_2
+    put:
+      operationId: GroupController_update
+      parameters:
+        - name: id
+          required: true
+          in: path
+          schema:
+            type: number
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/GroupEntity'
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GroupEntity'
+      tags: *ref_2
+    delete:
+      operationId: GroupController_delete
+      parameters:
+        - name: id
+          required: true
+          in: path
+          schema:
+            type: number
+      responses:
+        '200':
+          description: ''
+      tags: *ref_2
+  '/api/landscape/group/{id}/application':
+    post:
+      operationId: GroupController_addApplication
+      parameters:
+        - name: id
+          required: true
+          in: path
+          schema:
+            type: number
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ApplicationEntity'
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GroupEntity'
+      tags: *ref_2
+  /api/landscape/kuber/search:
+    get:
+      operationId: KuberController_search
+      parameters:
+        - name: namespace
+          required: true
+          in: query
+          schema:
+            type: string
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/KuberEntity'
+      tags: &ref_3
+        - landscape
+  /api/landscape/kuber:
+    get:
+      operationId: KuberController_findAll
+      parameters: []
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/KuberEntity'
+      tags: *ref_3
+  '/api/landscape/kuber/{id}':
+    get:
+      operationId: KuberController_findOne
+      parameters:
+        - name: id
+          required: true
+          in: path
+          schema:
+            type: number
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/KuberEntity'
+      tags: *ref_3
+    put:
+      operationId: KuberController_update
+      parameters:
+        - name: id
+          required: true
+          in: path
+          schema:
+            type: number
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/KuberEntity'
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/KuberEntity'
+      tags: *ref_3
+    delete:
+      operationId: KuberController_delete
+      parameters:
+        - name: id
+          required: true
+          in: path
+          schema:
+            type: number
+      responses:
+        '200':
+          description: ''
+      tags: *ref_3
+  /api/landscape/network:
+    get:
+      operationId: NetworkController_findAll
+      parameters: []
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/NetworkEntity'
+      tags: &ref_4
+        - landscape
+  '/api/landscape/network/{id}/host':
+    post:
+      operationId: NetworkController_addHost
+      parameters:
+        - name: id
+          required: true
+          in: path
+          schema:
+            type: number
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/HostEntity'
+      responses:
+        '201':
+          description: ''
+      tags: *ref_4
+  '/api/landscape/network/{id}':
+    get:
+      operationId: NetworkController_findOne
+      parameters:
+        - name: id
+          required: true
+          in: path
+          schema:
+            type: number
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/NetworkEntity'
+      tags: *ref_4
+    put:
+      operationId: NetworkController_update
+      parameters:
+        - name: id
+          required: true
+          in: path
+          schema:
+            type: number
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/NetworkEntity'
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/NetworkEntity'
+      tags: *ref_4
+    delete:
+      operationId: NetworkController_delete
+      parameters:
+        - name: id
+          required: true
+          in: path
+          schema:
+            type: number
+      responses:
+        '200':
+          description: ''
+      tags: *ref_4
+  /api/landscape/host/search:
+    get:
+      operationId: HostController_search
+      parameters:
+        - name: dnsname
+          required: true
+          in: query
+          schema:
+            type: string
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/HostEntity'
+      tags: &ref_5
+        - landscape
+  /api/landscape/host:
+    get:
+      operationId: HostController_findAll
+      parameters: []
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/HostEntity'
+      tags: *ref_5
+  '/api/landscape/host/{id}':
+    get:
+      operationId: HostController_findOne
+      parameters:
+        - name: id
+          required: true
+          in: path
+          schema:
+            type: number
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HostEntity'
+      tags: *ref_5
+    put:
+      operationId: HostController_update
+      parameters:
+        - name: id
+          required: true
+          in: path
+          schema:
+            type: number
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/HostEntity'
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HostEntity'
+      tags: *ref_5
+    delete:
+      operationId: HostController_delete
+      parameters:
+        - name: id
+          required: true
+          in: path
+          schema:
+            type: number
+      responses:
+        '200':
+          description: ''
+      tags: *ref_5
+  /api/landscape/application:
+    get:
+      operationId: ApplicationController_findAll
+      parameters: []
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/ApplicationEntity'
+      tags: &ref_6
+        - landscape
+  '/api/landscape/application/{id}':
+    get:
+      operationId: ApplicationController_findOne
+      parameters:
+        - name: id
+          required: true
+          in: path
+          schema:
+            type: number
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApplicationEntity'
+      tags: *ref_6
+    put:
+      operationId: ApplicationController_update
+      parameters:
+        - name: id
+          required: true
+          in: path
+          schema:
+            type: number
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/ApplicationEntity'
+      tags: *ref_6
+    delete:
+      operationId: ApplicationController_delete
+      parameters:
+        - name: id
+          required: true
+          in: path
+          schema:
+            type: number
+      responses:
+        '200':
+          description: ''
+      tags: *ref_6
+  /api/landscape/search/kuber:
+    post:
+      operationId: LandscapeSearchController_searchByKuber
+      parameters: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/LandscapeSearchRequestKuberDto'
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/LandscapeSearchKuberPageDto'
+      tags: &ref_7
+        - landscape
+  /api/landscape/search/host:
+    post:
+      operationId: LandscapeSearchController_searchByHost
+      parameters: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/LandscapeSearchRequestHostDto'
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/LandscapeSearchHostPageDto'
+      tags: *ref_7
+  /api/structure/generate:
+    get:
+      operationId: StructureController_generate
+      parameters: []
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/'
+      tags: &ref_8
+        - kitchen
+  /api/structure:
+    get:
+      operationId: StructureController_get
+      parameters: []
+      responses:
+        '200':
+          description: ''
+      tags: *ref_8
+  /api/certificate/analyze:
+    post:
+      operationId: CertificatesAnalyzeController_analyze
+      parameters: []
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/CertificateAnalyzeDto'
+      tags:
+        - certificates
+  /api/certificate/file:
+    get:
+      operationId: CertificateFileController_findAll
+      parameters: []
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/CertFileEntity'
+      tags: &ref_9
+        - certificates
+    post:
+      operationId: CertificateFileController_create
+      parameters: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CertFileEntity'
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CertFileEntity'
+      tags: *ref_9
+  '/api/certificate/file/{id}':
+    get:
+      operationId: CertificateFileController_findOne
+      parameters:
+        - name: id
+          required: true
+          in: path
+          schema:
+            type: number
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CertFileEntity'
+      tags: *ref_9
+    put:
+      operationId: CertificateFileController_update
+      parameters:
+        - name: id
+          required: true
+          in: path
+          schema:
+            type: number
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CertFileEntity'
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CertFileEntity'
+      tags: *ref_9
+    delete:
+      operationId: CertificateFileController_delete
+      parameters:
+        - name: id
+          required: true
+          in: path
+          schema:
+            type: number
+      responses:
+        '200':
+          description: ''
+      tags: *ref_9
+  '/api/certificate/file/{id}/certificate':
+    get:
+      operationId: CertificateFileController_addCertificate
+      parameters:
+        - name: id
+          required: true
+          in: path
+          schema:
+            type: number
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CertEntity'
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CertFileEntity'
+      tags: *ref_9
+  /api/certificate/job:
+    get:
+      operationId: CertificateJobController_findAll
+      parameters: []
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/CertificateJobEntity'
+      tags: &ref_10
+        - certificates
+    post:
+      operationId: CertificateJobController_create
+      parameters: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CertificateJobEntity'
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CertificateJobEntity'
+      tags: *ref_10
+  '/api/certificate/job/{id}':
+    get:
+      operationId: CertificateJobController_findOne
+      parameters:
+        - name: id
+          required: true
+          in: path
+          schema:
+            type: number
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CertificateJobEntity'
+      tags: *ref_10
+    put:
+      operationId: CertificateJobController_update
+      parameters:
+        - name: id
+          required: true
+          in: path
+          schema:
+            type: number
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CertificateJobEntity'
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CertificateJobEntity'
+      tags: *ref_10
+    delete:
+      operationId: CertificateJobController_delete
+      parameters:
+        - name: id
+          required: true
+          in: path
+          schema:
+            type: number
+      responses:
+        '200':
+          description: ''
+      tags: *ref_10
+  /api/certificate:
+    get:
+      operationId: CertificateController_findAll
+      parameters: []
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/CertEntity'
+      tags: &ref_11
+        - certificates
+    post:
+      operationId: CertificateController_create
+      parameters: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CertEntity'
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CertEntity'
+      tags: *ref_11
+  '/api/certificate/{id}':
+    get:
+      operationId: CertificateController_findOne
+      parameters:
+        - name: id
+          required: true
+          in: path
+          schema:
+            type: number
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CertEntity'
+      tags: *ref_11
+    put:
+      operationId: CertificateController_update
+      parameters:
+        - name: id
+          required: true
+          in: path
+          schema:
+            type: number
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CertEntity'
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CertEntity'
+      tags: *ref_11
+    delete:
+      operationId: CertificateController_delete
+      parameters:
+        - name: id
+          required: true
+          in: path
+          schema:
+            type: number
+      responses:
+        '200':
+          description: ''
+      tags: *ref_11

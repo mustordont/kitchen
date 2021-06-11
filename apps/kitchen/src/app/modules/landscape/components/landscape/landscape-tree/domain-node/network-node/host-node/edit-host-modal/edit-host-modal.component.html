@@ -1,0 +1,58 @@
+<h2 mat-dialog-title class="row">
+    {{label}}
+    <div class="flex-spacer"></div>
+    <button mat-icon-button mat-dialog-close>
+        <mat-icon>close</mat-icon>
+    </button>
+</h2>
+<mat-dialog-content>
+    <div [formGroup]="form" class="column">
+        <mat-form-field>
+            <mat-label>Applications</mat-label>
+            <mat-select [compareWith]="compareIds" formControlName="applications" multiple>
+                <mat-option (click)="form.get('applications').setValue([])">None</mat-option>
+                <mat-option *ngFor="let app of domain.applications" [value]="app">{{app.name}}</mat-option>
+            </mat-select>
+        </mat-form-field>
+        <mat-form-field>
+            <mat-label>IP</mat-label>
+            <input type="text" matInput formControlName="ip" required>
+        </mat-form-field>
+        <mat-form-field>
+            <mat-label>DNS name</mat-label>
+            <input type="text" matInput formControlName="dnsname" required>
+        </mat-form-field>
+        <mat-form-field>
+            <mat-label>OS</mat-label>
+            <input type="text" matInput formControlName="os" required>
+        </mat-form-field>
+        <mat-form-field>
+            <mat-label>CPU number</mat-label>
+            <input type="number" matInput formControlName="cpu" required>
+        </mat-form-field>
+        <mat-form-field>
+            <mat-label>RAM capacity (Gb)</mat-label>
+            <input type="number" matInput formControlName="ram" required>
+        </mat-form-field>
+        <mat-form-field>
+            <mat-label>HDD capacity (Gb)</mat-label>
+            <input type="number" matInput formControlName="hdd" required>
+        </mat-form-field>
+        <mat-form-field>
+            <mat-label>AD auth</mat-label>
+            <input type="text" matInput formControlName="auth" required>
+        </mat-form-field>
+        <mat-form-field>
+            <mat-label>Citrix profile</mat-label>
+            <input type="text" matInput formControlName="citrix" required>
+        </mat-form-field>
+        <mat-form-field>
+            <mat-label>Description</mat-label>
+            <textarea cdkTextareaAutosize cdkAutosizeMinRows="2" matInput formControlName="description"></textarea>
+        </mat-form-field>
+    </div>
+</mat-dialog-content>
+<mat-dialog-actions align="end">
+    <button mat-button mat-dialog-close>Cancel</button>
+    <button mat-button color="primary" (click)="update()" [disabled]="form.invalid">OK</button>
+</mat-dialog-actions>

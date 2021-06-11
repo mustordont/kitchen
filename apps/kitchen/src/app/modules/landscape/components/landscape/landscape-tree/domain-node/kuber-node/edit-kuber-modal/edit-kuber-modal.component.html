@@ -1,0 +1,30 @@
+<h2 mat-dialog-title class="row">
+    {{label}}
+    <div class="flex-spacer"></div>
+    <button mat-icon-button mat-dialog-close>
+        <mat-icon>close</mat-icon>
+    </button>
+</h2>
+<mat-dialog-content>
+    <div [formGroup]="form" class="column">
+        <mat-form-field>
+            <mat-label>Applications</mat-label>
+            <mat-select [compareWith]="compareIds" formControlName="applications" multiple>
+                <mat-option (click)="form.get('applications').setValue([])">None</mat-option>
+                <mat-option *ngFor="let app of applications | filterAppsByGroup: group" [value]="app">{{app.name}}</mat-option>
+            </mat-select>
+        </mat-form-field>
+        <mat-form-field>
+            <mat-label>Namespace</mat-label>
+            <input type="text" matInput formControlName="namespace" required>
+        </mat-form-field>
+        <mat-form-field>
+            <mat-label>Description</mat-label>
+            <textarea cdkTextareaAutosize cdkAutosizeMinRows="2" matInput formControlName="description"></textarea>
+        </mat-form-field>
+    </div>
+</mat-dialog-content>
+<mat-dialog-actions align="end">
+    <button mat-button mat-dialog-close>Cancel</button>
+    <button mat-button color="primary" (click)="update()" [disabled]="form.invalid">OK</button>
+</mat-dialog-actions>

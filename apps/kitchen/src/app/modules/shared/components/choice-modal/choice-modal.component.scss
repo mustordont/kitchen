@@ -1,0 +1,12 @@
+:host {
+    display: block;
+    position: relative;
+
+    .mat-dialog-title {
+        display: flex;
+    }
+
+    .spinner {
+        margin: 0 auto;
+    }
+}

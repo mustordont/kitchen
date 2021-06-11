@@ -1,0 +1,99 @@
+<div [formGroup]="form" *ngIf="{domains: domains$ | async, groups: groups$ | async} as data">
+    <mat-form-field>
+        <mat-select placeholder="Filter by domains" formControlName="domain">
+            <mat-option>Any domain</mat-option>
+            <mat-option *ngFor="let item of data.domains" [value]="item">
+                {{item.name}}
+            </mat-option>
+        </mat-select>
+    </mat-form-field>
+
+    <mat-form-field>
+        <mat-select placeholder="Filter by groups" formControlName="group">
+            <mat-option>Any group</mat-option>
+            <mat-option *ngFor="let item of data.groups" [value]="item">
+                {{item.name}}
+            </mat-option>
+        </mat-select>
+    </mat-form-field>
+
+    <mat-form-field>
+        <input type="text"
+               placeholder="Host namespace"
+               matInput
+               formControlName="kuber"
+               [matAutocomplete]="auto"
+               (focus)="searchKubers$.next()"
+               (blur)="suppressKuber()"
+        >
+        <mat-autocomplete #auto="matAutocomplete">
+            <ng-container *ngIf="namespaces$ | async as options">
+                <mat-option *ngFor="let option of options" [value]="option">
+                    {{option.namespace}}
+                </mat-option>
+                <mat-option *ngIf="!options.length" disabled>
+                    Nothing found
+                </mat-option>
+            </ng-container>
+        </mat-autocomplete>
+    </mat-form-field>
+</div>
+
+<table mat-table [dataSource]="tableData" class="content mat-elevation-z1">
+    <ng-container matColumnDef="domain">
+        <th mat-header-cell *matHeaderCellDef>domain</th>
+        <td mat-cell *matCellDef="let element">
+            <a href="javascript:void(0)" (click)="editDomain(element.domain.id)">{{element.domain.name}}</a>
+        </td>
+    </ng-container>
+
+    <ng-container matColumnDef="group">
+        <th mat-header-cell *matHeaderCellDef>group</th>
+        <td mat-cell *matCellDef="let element">
+            <a href="javascript:void(0)" (click)="editGroup(element.domain.id, element.group.id)">{{element.group.name}}</a>
+        </td>
+    </ng-container>
+
+    <ng-container matColumnDef="kuber">
+        <th mat-header-cell *matHeaderCellDef>kuber</th>
+        <td mat-cell *matCellDef="let element">
+            <a href="javascript:void(0)" (click)="editKuber(element.domain.id, element.group.id, element.kuber.id)">
+                {{element.kuber.namespace}}
+            </a>
+        </td>
+    </ng-container>
+
+    <ng-container matColumnDef="app">
+        <th mat-header-cell *matHeaderCellDef>app</th>
+        <td mat-cell *matCellDef="let element">
+            <kitchen-landscape-search-cell-app *ngIf="element.application" [app]="element.application">
+                <a href="javascript:void(0)" (click)="editApplication(element.domain.id, element.group.id, element.application.id); $event.stopPropagation();">
+                    {{element.application.name}}
+                </a>
+            </kitchen-landscape-search-cell-app>
+        </td>
+    </ng-container>
+
+    <ng-container matColumnDef="network">
+        <th mat-header-cell *matHeaderCellDef>network</th>
+        <td mat-cell *matCellDef="let element">
+            <a href="javascript:void(0)" (click)="editNetwork(element.domain_id, element.group_id, element.kuber_id)">
+                {{element.network_base}}
+            </a>
+        </td>
+    </ng-container>
+
+    <ng-container matColumnDef="host">
+        <th mat-header-cell *matHeaderCellDef>host</th>
+        <td mat-cell *matCellDef="let element">
+            <a href="javascript:void(0)" (click)="editHost(element.domain_id, element.group_id, element.kuber_id)">
+                {{element.host_dnsname}}
+            </a>
+        </td>
+    </ng-container>
+
+    <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky: true"></tr>
+    <tr mat-row class="item" *matRowDef="let row; columns: displayedColumns;"></tr>
+</table>
+
+<mat-paginator [pageSizeOptions]="pageSizes" showFirstLastButtons class="mat-elevation-z1"></mat-paginator>

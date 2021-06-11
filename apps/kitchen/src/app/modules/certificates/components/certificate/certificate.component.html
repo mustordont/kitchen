@@ -1,0 +1,27 @@
+<ng-container [formGroup]="form">
+    <mat-checkbox formControlName="active"></mat-checkbox>
+
+    <mat-form-field class="subject">
+        <mat-label>Certificate subject</mat-label>
+        <textarea matInput cdkTextareaAutosize cdkAutosizeMinRows="2" formControlName="subject"></textarea>
+    </mat-form-field>
+
+    <mat-form-field>
+        <mat-label>Certificate range</mat-label>
+        <mat-date-range-input [rangePicker]="picker">
+            <input formControlName="validFrom" matStartDate placeholder="Valid from">
+            <input formControlName="validTo" matEndDate placeholder="Valid to">
+        </mat-date-range-input>
+        <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+        <mat-date-range-picker #picker></mat-date-range-picker>
+    </mat-form-field>
+
+    <mat-form-field>
+        <mat-label>Date to start alerts</mat-label>
+        <input matInput [matDatepicker]="alertDate" formControlName="alertDate" [max]="form.get('validTo').value">
+        <mat-datepicker-toggle matSuffix [for]="alertDate"></mat-datepicker-toggle>
+        <mat-datepicker #alertDate></mat-datepicker>
+    </mat-form-field>
+
+    <kitchen-last-certificate-job [jobs]="item.jobs" (update)="updateJobs($event)"></kitchen-last-certificate-job>
+</ng-container>

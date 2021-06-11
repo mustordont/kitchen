@@ -1,0 +1,28 @@
+@import 'variables';
+
+:host {
+    width: 100%;
+
+    > * {
+        margin: 0 auto;
+    }
+
+    .form {
+        display: flex;
+        flex-direction: column;
+        margin-bottom: 10px;
+        width: 640px;
+
+        > * {
+            width: 100%;
+        }
+    }
+
+    .mat-expansion-panel-header-title {
+        flex: 1;
+    }
+
+    .mat-expansion-panel-header-description {
+        flex: 2;
+    }
+}

@@ -1,0 +1,12 @@
+<mat-toolbar>
+    <mat-toolbar-row>
+        <button mat-icon-button (click)="refresh$.next()">
+            <mat-icon>refresh</mat-icon>
+        </button>
+        <div class="flex-spacer"></div>
+        <input #fileInput hidden type="file" onclick="this.value=null" (change)="inputFilesChange($event.target.files)" accept=".zip,.cer,.crt"/>
+        <button mat-flat-button color="primary" (click)="fileInput.click()">Choose .zip archive or .cer file to analyze</button>
+    </mat-toolbar-row>
+</mat-toolbar>
+
+<kitchen-certificate-file class="content" *ngFor="let item of files$ | async" [item]="item" (onDelete)="refresh$.next()"></kitchen-certificate-file>

@@ -1,0 +1,37 @@
+<mat-expansion-panel expanded>
+    <mat-expansion-panel-header>
+        <mat-panel-title>
+            <ng-content></ng-content>
+        </mat-panel-title>
+    </mat-expansion-panel-header>
+    <mat-list dense>
+        <mat-list-item>
+            <mat-checkbox [checked]="network.production" [disabled]="true">Production</mat-checkbox>
+        </mat-list-item>
+        <mat-list-item>
+            <span>Base:</span>
+            <span class="flex-spacer"></span>
+            <b>{{network.base}}</b>
+        </mat-list-item>
+        <mat-list-item>
+            <span>Mask:</span>
+            <span class="flex-spacer"></span>
+            <b>{{network.mask}}</b>
+        </mat-list-item>
+        <mat-list-item>
+            <span>VOS:</span>
+            <span class="flex-spacer"></span>
+            <b>{{network.vos}}</b>
+        </mat-list-item>
+        <mat-list-item>
+            <span>VLAN:</span>
+            <span class="flex-spacer"></span>
+            <b>{{network.vlan}}</b>
+        </mat-list-item>
+        <mat-list-item>
+            <span>description:</span>
+            <span class="flex-spacer"></span>
+            <b>{{network.description}}</b>
+        </mat-list-item>
+    </mat-list>
+</mat-expansion-panel>

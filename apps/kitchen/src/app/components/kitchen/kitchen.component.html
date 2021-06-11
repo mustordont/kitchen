@@ -1,0 +1,51 @@
+<div class="loading-placeholder">
+    <mat-progress-bar mode="indeterminate" *ngIf="busy"></mat-progress-bar>
+</div>
+<mat-toolbar class="main-toolbar mat-elevation-z6" *ngIf="{account: authService.accountInfo$ | async} as data">
+    <mat-toolbar-row>
+        <span (click)="showInfo()">Apps Kitchen</span>
+        <ng-container *ngIf="data.account">
+            <a mat-button routerLink="employee" routerLinkActive="mat-primary">
+                <mat-icon>person</mat-icon>
+                Employee
+            </a>
+            <a mat-button routerLink="landscape" routerLinkActive="mat-primary">
+                <mat-icon>landscape</mat-icon>
+                Landscape
+            </a>
+            <a mat-button routerLink="certificates" routerLinkActive="mat-primary">
+                <mat-icon>playlist_add</mat-icon>
+                Certificates
+            </a>
+            <a mat-button routerLink="settings" routerLinkActive="mat-primary">
+                <mat-icon>settings</mat-icon>
+                Settings
+            </a>
+        </ng-container>
+        <a mat-button routerLink="structure" routerLinkActive="mat-primary">
+            <mat-icon>filter_list</mat-icon>
+            IT-structure
+        </a>
+        <span class="flex-spacer"></span>
+        <ng-container [ngSwitch]="!!data.account">
+            <a *ngSwitchCase="false" mat-button routerLink="login" routerLinkActive="mat-primary">
+                <mat-icon>perm_identity</mat-icon>
+                Login
+            </a>
+            <ng-container *ngSwitchCase="true">
+                <a mat-button routerLink="account"
+                        routerLinkActive="mat-primary">
+                    <mat-icon>perm_identity</mat-icon>
+                    {{data.account.name}}
+                </a>
+                <button mat-icon-button color="accent" (click)="authService.logout();">
+                    <mat-icon>power_settings_new</mat-icon>
+                </button>
+            </ng-container>
+        </ng-container>
+    </mat-toolbar-row>
+</mat-toolbar>
+
+<main class="content" [@routerTransition]="getState(o)">
+    <router-outlet #o="outlet"></router-outlet>
+</main>

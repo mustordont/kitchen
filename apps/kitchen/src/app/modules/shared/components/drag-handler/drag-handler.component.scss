@@ -1,0 +1,9 @@
+@import 'variables';
+
+:host {
+    color: #ccc;
+    cursor: move;
+    width: 24px;
+    height: 24px;
+    z-index: 1;
+}

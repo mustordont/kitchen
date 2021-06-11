@@ -1,0 +1,80 @@
+replicas: 1
+
+global:
+    registry: nexus
+
+app:
+    repository: kitchen
+    tag: "${VERSION}"
+    containerPort: 4000
+    resources:
+        limits:
+            memory: 1024Mi
+            cpu: 400m
+        requests:
+            memory: 1024Mi
+            cpu: 200m
+
+probes:
+    livenessProbe:
+        httpGet:
+            port: app
+            path: /
+        initialDelaySeconds: 120
+        failureThreshold: 5
+        successThreshold: 1
+        timeoutSeconds: 5
+        periodSeconds: 20
+    readinessProbe:
+        httpGet:
+            port: app
+            path: /
+        initialDelaySeconds: 20
+        failureThreshold: 5
+        successThreshold: 1
+        timeoutSeconds: 5
+        periodSeconds: 30
+
+ingress:
+    -   host: kitchen
+        name: kitchen
+        frontendIP: "10.0.0.0"
+        insecurePort: "8080"
+        termination: "allow"
+        paths:
+            -   backend:
+                    serviceName: kitchen-service
+                    servicePort: 8080
+                path: /
+
+service:
+    -   name: app
+        protocol: TCP
+        port: 8080
+        targetPort: app
+
+configmap:
+    JWT_SECRET: "${JWT_SECRET}"
+    AD_HOST: "${AD_HOST}"
+    AD_USER: "${AD_USER}"
+    AD_PWD: "${AD_PWD}"
+    AD_DOMAIN: "${AD_DOMAIN}"
+    AD_BASEDN: "${AD_BASEDN}"
+    GROUPS_REQUIRED_EMPLOYEE: "AD_EMPLOYEE_GROUP"
+    GROUPS_REQUIRED_CHOICE: "AD_CHOICE_GROUP"
+    GROUPS_REQUIRED_CERTIFICATES: "AD_ADM_GROUP"
+    CHOICE_API_ID: "${CHOICE_API_ID}"
+    CHOICE_API_SECRET: "${CHOICE_API_SECRET}"
+    KITCHEN_ENDPOINT: "${KITCHEN_ENDPOINT}"
+    SEND_NOTIFICATION: "${SEND_NOTIFICATION}"
+    TYPEORM_LOGGING: "${TYPEORM_LOGGING}"
+    TYPEORM_CONNECTION: "${TYPEORM_CONNECTION}"
+    TYPEORM_USERNAME: "${TYPEORM_USERNAME}"
+    TYPEORM_PASSWORD: "${TYPEORM_PASSWORD}"
+    TYPEORM_SID: "${TYPEORM_SID}"
+    TYPEORM_HOST: "${TYPEORM_HOST}"
+    TYPEORM_PORT: "${TYPEORM_PORT}"
+    TYPEORM_ENTITIES: "${TYPEORM_ENTITIES}"
+    TYPEORM_SYNCHRONIZE: "${TYPEORM_SYNCHRONIZE}"
+    TYPEORM_MIGRATIONS: "${TYPEORM_MIGRATIONS}"
+    TYPEORM_MIGRATIONS_DIR: "${TYPEORM_MIGRATIONS_DIR}"

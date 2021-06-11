@@ -1,0 +1,20 @@
+<div class="row">
+    <button mat-raised-button color="accent" class="name">
+        {{item.name}}
+    </button>
+    <div class="action">
+        <button mat-icon-button (click)="edit()">
+            <mat-icon>edit</mat-icon>
+        </button>
+        <button mat-icon-button color="warn" (click)="delete()">
+            <mat-icon>delete</mat-icon>
+        </button>
+    </div>
+
+    <button mat-stroked-button (click)="newHost()">
+        <mat-icon>add</mat-icon>
+        new host
+    </button>
+</div>
+
+<kitchen-host-node *ngFor="let host of item.hosts | filterByApps : (currentDomainService.group$ | async)" [item]="host" [network]="item" (onUpdate)="onUpdate.emit()"></kitchen-host-node>

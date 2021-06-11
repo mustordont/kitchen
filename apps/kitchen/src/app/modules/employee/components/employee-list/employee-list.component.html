@@ -1,0 +1,36 @@
+<form class="form" autocomplete="off">
+    <mat-form-field>
+        <input matInput placeholder="Query" [formControl]="query">
+        <button matSuffix mat-button [disabled]="query.invalid" (click)="makeSearch()">
+            <mat-icon>search</mat-icon>
+            Search
+        </button>
+        <mat-hint align="start">
+            Please provide surname/ name, mobile number or email
+        </mat-hint>
+    </mat-form-field>
+</form>
+
+<mat-accordion multi="true">
+    <mat-expansion-panel *ngFor="let item of list">
+        <mat-expansion-panel-header>
+            <mat-panel-title [innerHTML]="item.personName"></mat-panel-title>
+            <mat-panel-description>
+                {{item.title}}
+            </mat-panel-description>
+        </mat-expansion-panel-header>
+
+        <ng-template matExpansionPanelContent>
+            <y-employee [info]="item"></y-employee>
+        </ng-template>
+    </mat-expansion-panel>
+</mat-accordion>
+
+<div class="content" *ngIf="_loaded && !list.length">
+    <mat-card>
+        <h1 class="mat-h1">
+            Nothing found
+        </h1>
+    </mat-card>
+</div>
+

@@ -1,0 +1,17 @@
+<ng-content></ng-content>
+<div>
+    <h3 class="title">
+        {{block.displayName}}
+        <mat-chip-list *ngIf="block.department" class="department">
+            <mat-chip color="primary">{{block.department}}</mat-chip>
+        </mat-chip-list>
+        <a mat-icon-button *ngIf="block.spaceURL" target="_blank" [href]="block.spaceURL">
+            <mat-icon color="accent">
+                link
+            </mat-icon>
+        </a>
+    </h3>
+    <div class="content" *ngIf="block.manager">
+        {{block.manager.fullName}}
+    </div>
+</div>

@@ -1,0 +1,54 @@
+<mat-expansion-panel expanded>
+    <mat-expansion-panel-header>
+        <mat-panel-title>
+            <ng-content></ng-content>
+        </mat-panel-title>
+    </mat-expansion-panel-header>
+    <mat-list dense>
+        <mat-list-item>
+            <span>IP:</span>
+            <span class="flex-spacer"></span>
+            <b>{{host.ip}}</b>
+        </mat-list-item>
+        <mat-list-item>
+            <span>DNS name:</span>
+            <span class="flex-spacer"></span>
+            <b>{{host.dnsname}}</b>
+        </mat-list-item>
+        <mat-list-item>
+            <span>OS:</span>
+            <span class="flex-spacer"></span>
+            <b>{{host.os}}</b>
+        </mat-list-item>
+        <mat-list-item>
+            <span>CPU:</span>
+            <span class="flex-spacer"></span>
+            <b>{{host.cpu}}</b>
+        </mat-list-item>
+        <mat-list-item>
+            <span>RAM:</span>
+            <span class="flex-spacer"></span>
+            <b>{{host.ram}}</b>
+        </mat-list-item>
+        <mat-list-item>
+            <span>HDD:</span>
+            <span class="flex-spacer"></span>
+            <b>{{host.hdd}}</b>
+        </mat-list-item>
+        <mat-list-item>
+            <span>Auth:</span>
+            <span class="flex-spacer"></span>
+            <b>{{host.auth}}</b>
+        </mat-list-item>
+        <mat-list-item>
+            <span>Citrix:</span>
+            <span class="flex-spacer"></span>
+            <b>{{host.citrix}}</b>
+        </mat-list-item>
+        <mat-list-item>
+            <span>description:</span>
+            <span class="flex-spacer"></span>
+            <b>{{host.description}}</b>
+        </mat-list-item>
+    </mat-list>
+</mat-expansion-panel>

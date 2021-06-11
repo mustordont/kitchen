@@ -1,0 +1,9 @@
+<h2 mat-dialog-title>About application</h2>
+<mat-list *ngIf="kitchenService.aboutInfo$ | async as aboutInfo">
+    <h3 mat-subheader>Authors</h3>
+    <mat-list-item>{{aboutInfo?.authors.join(', ')}}</mat-list-item>
+    <h3 mat-subheader>Api version</h3>
+    <mat-list-item>{{aboutInfo.apiVersion}}</mat-list-item>
+    <h3 mat-subheader>Front version</h3>
+    <mat-list-item>{{aboutInfo.frontVersion}}</mat-list-item>
+</mat-list>

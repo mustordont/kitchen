@@ -1,0 +1,42 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: "{{ .Chart.Name }}"
+  namespace: {{ .Release.Namespace }}
+  labels:
+    app: "{{ .Chart.Name }}"
+    chart: "{{ .Chart.Name }}"
+spec:
+  replicas: {{ .Values.replicas }}
+  strategy:
+    type: "RollingUpdate"
+    rollingUpdate:
+      maxUnavailable: 50%
+      maxSurge: 50%
+  selector:
+    matchLabels:
+      app: "{{ .Chart.Name }}"
+      chart: "{{ .Chart.Name }}"
+  template:
+    metadata:
+      annotations:
+        checksum/config: {{ include (print $.Template.BasePath "/configmap.yaml") . | sha256sum }}
+      labels:
+        app: "{{ .Chart.Name }}"
+        chart: "{{ .Chart.Name }}"
+    spec:
+      containers:
+        - name: "{{ .Chart.Name }}"
+          image:  "{{- .Values.global.registry -}}/{{- .Values.app.repository -}}:{{- .Values.app.tag -}}"
+          ports:
+            - containerPort: {{ .Values.app.containerPort }}
+              name: app
+          livenessProbe:
+{{ toYaml .Values.probes.livenessProbe | indent 12 }}
+          readinessProbe:
+{{ toYaml .Values.probes.readinessProbe | indent 12 }}
+          resources:
+{{ toYaml .Values.app.resources | indent 12 }}
+          envFrom:
+            - configMapRef:
+                name: "{{ .Chart.Name }}-env"

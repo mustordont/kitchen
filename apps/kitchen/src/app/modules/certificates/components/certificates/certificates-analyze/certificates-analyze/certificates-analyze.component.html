@@ -1,0 +1,22 @@
+<h2 mat-dialog-title class="row">
+    Parsed data from {{data.originalFile.name}}
+    <div class="flex-spacer"></div>
+    <button mat-icon-button mat-dialog-close>
+        <mat-icon>close</mat-icon>
+    </button>
+</h2>
+<mat-dialog-content>
+    <mat-form-field class="title">
+        <mat-label>Record set name</mat-label>
+        <input matInput [formControl]="name" type="text">
+    </mat-form-field>
+    <div class="content table">
+        <kitchen-certificate
+            *ngFor="let item of data.certificates; trackBy:trackBy; let index=index"
+            [item]="item" (update)="update($event, index)"></kitchen-certificate>
+    </div>
+</mat-dialog-content>
+<mat-dialog-actions align="end">
+    <button mat-button mat-dialog-close>Cancel</button>
+    <button mat-button color="primary" (click)="submit()">OK</button>
+</mat-dialog-actions>

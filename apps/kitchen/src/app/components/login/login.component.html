@@ -1,0 +1,14 @@
+<div class="content">
+    <mat-card>
+        <form [formGroup]="loginForm">
+            <mat-form-field>
+                <input matInput formControlName="login" placeholder="Login" autocomplete="username">
+            </mat-form-field>
+            <mat-form-field>
+                <input matInput formControlName="password" placeholder="Password" type="password" autocomplete="current-password">
+            </mat-form-field>
+
+            <button id="login-button" mat-stroked-button color="primary" [disabled]="loginForm.invalid || isBusy" (click)="login()">Login</button>
+        </form>
+    </mat-card>
+</div>

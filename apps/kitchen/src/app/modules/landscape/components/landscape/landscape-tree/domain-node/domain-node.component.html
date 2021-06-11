@@ -1,0 +1,90 @@
+<app-preloader *ngIf="busy$ | async"></app-preloader>
+
+<div class="row">
+    <button mat-icon-button (click)="isExpanded = !isExpanded" [disabled]="!item.networks.length">
+        <mat-icon>
+            {{isExpanded ? 'expand_more' : 'chevron_right'}}
+        </mat-icon>
+    </button>
+    <button mat-raised-button color="primary" class="name">
+        {{item.name}}
+    </button>
+    <div class="action">
+        <button mat-icon-button (click)="edit()">
+            <mat-icon>edit</mat-icon>
+        </button>
+        <button mat-icon-button color="warn" (click)="delete()">
+            <mat-icon>delete</mat-icon>
+        </button>
+    </div>
+
+    <button mat-stroked-button (click)="newKuber()">
+        <mat-icon>add</mat-icon>
+        new kuber
+    </button>
+
+    <button mat-stroked-button (click)="newNetwork()">
+        <mat-icon>add</mat-icon>
+        new network
+    </button>
+
+    <div class="flex-spacer"></div>
+
+    <button mat-stroked-button (click)="newGroup()">
+        <mat-icon>add</mat-icon>
+        new group
+    </button>
+
+    <mat-form-field>
+        <mat-label>Groups</mat-label>
+        <mat-select [(ngModel)]="currentDomainService.group" [compareWith]="compareIds">
+            <mat-select-trigger>{{currentDomainService.group?.name}}</mat-select-trigger>
+            <mat-option>Any group</mat-option>
+            <mat-option *ngFor="let group of item.groups" [value]="group">
+                <div class="row">
+                    <span class="text-overflow">{{group.name}}</span>
+                    <div class="flex-spacer"></div>
+                    <div>
+                        <button mat-icon-button (click)="$event.preventDefault(); editGroup(group);">
+                            <mat-icon>edit</mat-icon>
+                        </button>
+                        <button mat-icon-button (click)="$event.preventDefault(); deleteGroup(group);">
+                            <mat-icon color="warn" class="no-margin">delete</mat-icon>
+                        </button>
+                    </div>
+                </div>
+            </mat-option>
+        </mat-select>
+    </mat-form-field>
+
+    <button mat-stroked-button (click)="newApplication()">
+        <mat-icon>add</mat-icon>
+        new application
+    </button>
+
+    <mat-form-field>
+        <mat-label>Applications</mat-label>
+        <mat-select>
+            <mat-option *ngFor="let app of currentDomainService.group?.applications">
+                <div class="row">
+                    <span class="text-overflow">{{app.name}}</span>
+                    <div class="flex-spacer"></div>
+                    <div>
+                        <button mat-icon-button (click)="$event.preventDefault(); editApp(app);">
+                            <mat-icon>edit</mat-icon>
+                        </button>
+                        <button mat-icon-button (click)="$event.preventDefault(); deleteApp(app);">
+                            <mat-icon color="warn" class="no-margin">delete</mat-icon>
+                        </button>
+                    </div>
+                </div>
+            </mat-option>
+        </mat-select>
+    </mat-form-field>
+</div>
+
+<ng-container *ngIf="isExpanded">
+    <kitchen-kuber-node *ngFor="let kuber of item.kubers | filterByApps : (currentDomainService.group$ | async)" [item]="kuber" [domain]="item" (onUpdate)="refresh$.next()"></kitchen-kuber-node>
+
+    <kitchen-network-node *ngFor="let network of item.networks" [item]="network" [domain]="item" (onUpdate)="refresh$.next()"></kitchen-network-node>
+</ng-container>

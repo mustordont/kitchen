@@ -1,0 +1,11 @@
+@use 'variables';
+
+:host {
+    display: block;
+    width: 100%;
+
+    kitchen-certificate-file {
+        margin-bottom: variables.$padding;
+        padding: variables.$padding;
+    }
+}

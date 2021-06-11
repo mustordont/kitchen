@@ -1,0 +1,25 @@
+@import 'variables';
+
+:host {
+    .loading-placeholder {
+        position: fixed;
+        display: block;
+        height: 2px;
+        width: 100%;
+        top: 64px;
+        overflow: hidden;
+        z-index: 101;
+    }
+
+    .main-toolbar {
+        position: fixed;
+        top: 0;
+        z-index: 100;
+    }
+
+    .content {
+        display: flex;
+        padding: ($toolbar-height + $padding) $padding $padding $padding;
+        height: 100vh;
+    }
+}

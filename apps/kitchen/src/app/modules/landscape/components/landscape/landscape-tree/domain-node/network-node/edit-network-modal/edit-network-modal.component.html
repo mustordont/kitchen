@@ -1,0 +1,36 @@
+<h2 mat-dialog-title class="row">
+    Network edit
+    <div class="flex-spacer"></div>
+    <button mat-icon-button mat-dialog-close>
+        <mat-icon>close</mat-icon>
+    </button>
+</h2>
+<mat-dialog-content>
+    <div [formGroup]="form" class="column">
+        <mat-checkbox formControlName="production">Production</mat-checkbox>
+        <mat-form-field>
+            <mat-label>Base</mat-label>
+            <input type="text" matInput formControlName="base" required>
+        </mat-form-field>
+        <mat-form-field>
+            <mat-label>Mask</mat-label>
+            <input type="text" matInput formControlName="mask" required>
+        </mat-form-field>
+        <mat-form-field>
+            <mat-label>VOS</mat-label>
+            <input type="number" matInput formControlName="vos" required>
+        </mat-form-field>
+        <mat-form-field>
+            <mat-label>Vlan</mat-label>
+            <input type="number" matInput formControlName="vlan" required>
+        </mat-form-field>
+        <mat-form-field>
+            <mat-label>Description</mat-label>
+            <textarea cdkTextareaAutosize cdkAutosizeMinRows="2" matInput formControlName="description"></textarea>
+        </mat-form-field>
+    </div>
+</mat-dialog-content>
+<mat-dialog-actions align="end">
+    <button mat-button mat-dialog-close>Cancel</button>
+    <button mat-button color="primary" (click)="update()" [disabled]="form.invalid">OK</button>
+</mat-dialog-actions>

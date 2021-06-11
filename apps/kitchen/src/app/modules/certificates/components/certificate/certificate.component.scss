@@ -1,0 +1,15 @@
+@use 'mixins';
+
+:host {
+    display: table-row;
+    width: 100%;
+
+    & > * {
+        @include mixins.tableCell();
+    }
+
+    .subject {
+        width: 60%;
+        margin: 0 mixins.$padding;
+    }
+}

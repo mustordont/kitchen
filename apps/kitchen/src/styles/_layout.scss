@@ -1,0 +1,43 @@
+.content {
+    width: 100%;
+}
+
+.row {
+    flex: 1;
+    display: flex !important;
+    flex-direction: row;
+    align-items: center;
+
+    .row-item {
+        width: 180px;
+    }
+}
+
+.column {
+    display: flex;
+    flex: 1;
+    flex-direction: column;
+}
+
+.edit-modal {
+    display: block;
+    width: 500px;
+}
+
+.no-padding {
+    padding: 0 !important;
+}
+
+.no-margin {
+    margin: 0 !important;
+}
+
+.hidden {
+    display: none !important;
+}
+
+.text-overflow {
+    max-width: 200px;
+    text-overflow: ellipsis;
+    overflow: hidden;
+}

@@ -1,0 +1,86 @@
+.kubernetes: &kubernetes
+    variables:
+        NAMESPACE: dev
+        NAMESPACE_A: active
+        NAMESPACE_S: standby
+    image: nexus/${KUBECTL_HELM_IMAGE}
+    tags:
+        - dev-runner-tag
+    rules:
+        - if: '$CI_COMMIT_REF_NAME == "master" || $CI_COMMIT_REF_NAME == "develop"'
+    before_script:
+        - export APP_NAME=`awk -F "\"" '/name/{print $4; exit}' ./package.json`
+        - export VERSION=`awk -F "\"" '/version/{print $4; exit}' ./package.json`
+        - cd tools/helm
+        - helm repo update
+        - envsubst < Chart.yaml > tmp && mv tmp Chart.yaml
+        - envsubst < values.yaml > tmp && mv tmp values.yaml
+        - envsubst < prodvalues.yaml > tmp && mv tmp prodvalues.yaml
+        - helm lint ./
+
+helm-template:
+    stage: helm-template
+    <<: *kubernetes
+    script:
+        - helm template --namespace ${NAMESPACE} ./
+
+helm-push:
+    stage: helm-push
+    <<: *kubernetes
+    script:
+        - helm push ./ --force --context-path=/helm prod-nexus
+
+deploy dev:
+    stage: deploy
+    <<: *kubernetes
+    script:
+        - helm upgrade ${APP_NAME} --install --namespace ${NAMESPACE} ./ --atomic
+
+deploy prod active:
+    stage: deploy
+    <<: *kubernetes
+    environment: production
+    tags:
+        - prod-runner-tag
+    rules:
+        -   if: '$CI_COMMIT_REF_NAME == "master"'
+            when: manual
+    script:
+        - sed -i 's#123#321#g' prodvalues.yaml
+        - helm upgrade ${APP_NAME} --install --namespace ${NAMESPACE_A} ./ --atomic -f prodvalues.yaml
+
+deploy prod standby:
+    stage: deploy
+    <<: *kubernetes
+    environment: production
+    tags:
+        -standby-runner-tag
+    rules:
+        -   if: '$CI_COMMIT_REF_NAME == "master"'
+            when: manual
+    script:
+        - helm upgrade ${APP_NAME} --install --namespace ${NAMESPACE_S} ./ --atomic -f prodvalues.yaml
+
+rollback prod active:
+    stage: rollback
+    <<: *kubernetes
+    environment: production
+    tags:
+        - active-runner-tag
+    rules:
+        -   if: '$CI_COMMIT_REF_NAME == "master"'
+            when: manual
+    script:
+        - helm rollback ${APP_NAME} --namespace ${NAMESPACE_A} 0
+
+rollback prod standby:
+    stage: rollback
+    <<: *kubernetes
+    environment: production
+    tags:
+        - standby-runner-tag
+    rules:
+        -   if: '$CI_COMMIT_REF_NAME == "master"'
+            when: manual
+    script:
+        - helm rollback ${APP_NAME} --namespace ${NAMESPACE_S} 0

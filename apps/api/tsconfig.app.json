@@ -1,0 +1,23 @@
+{
+    "extends": "./tsconfig.json",
+    "compilerOptions": {
+        "outDir": "../../dist/out-tsc",
+        "types": [
+            "node"
+        ],
+        "emitDecoratorMetadata": true,
+        "experimentalDecorators": true,
+        "target": "es2015",
+        "plugins": [
+            {
+                "name": "@nestjs/swagger"
+            }
+        ]
+    },
+    "exclude": [
+        "**/*.spec.ts"
+    ],
+    "include": [
+        "**/*.ts"
+    ]
+}

@@ -1,0 +1,35 @@
+@use "mixins";
+
+:host {
+
+    &:not(.standalone) {
+        .row {
+            @include mixins.actionButton();
+        }
+    }
+
+    .table {
+        display: table;
+
+        .title  {
+            display: table-row;
+            > * {
+                @include mixins.tableCell();
+            }
+        }
+    }
+
+    .name {
+        pointer-events: none;
+    }
+
+    &.standalone {
+        width: 100%;
+
+        ::ng-deep {
+            .mat-checkbox {
+                display: none;
+            }
+        }
+    }
+}

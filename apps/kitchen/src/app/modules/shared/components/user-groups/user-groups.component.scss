@@ -1,0 +1,15 @@
+:host {
+    .label {
+        width: 120px;
+        text-align: right;
+        padding-right: 20px;
+    }
+    .data {
+        flex: 1;
+    }
+
+    .multi-line {
+        height: 100%;
+        padding: 10px 0;
+    }
+}

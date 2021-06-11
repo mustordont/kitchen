@@ -1,0 +1,30 @@
+<div class="row content">
+    <a mat-button [routerLink]="[item.id]" routerLinkActive="mat-primary">{{item.name}}</a>
+    <div class="flex-spacer"></div>
+    <div class="action">
+        <button mat-icon-button color="primary" (click)="addNew()">
+            <mat-icon>
+                add
+            </mat-icon>
+        </button>
+        <button mat-icon-button color="primary" (click)="download()">
+            <mat-icon>
+                download
+            </mat-icon>
+        </button>
+        <button mat-icon-button color="warn" (click)="delete()">
+            <mat-icon>
+                delete
+            </mat-icon>
+        </button>
+    </div>
+</div>
+<div class="content table" *ngIf="!parent">
+    <div class="title">
+        <span></span>
+        <span></span>
+        <span></span>
+        <span>Last job status</span>
+    </div>
+    <kitchen-certificate *ngFor="let item of item.certs; trackBy: trackBy" [item]="item"></kitchen-certificate>
+</div>

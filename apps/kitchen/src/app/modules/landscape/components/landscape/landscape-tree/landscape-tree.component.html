@@ -1,0 +1,8 @@
+<div class="toolbar">
+    <button mat-button (click)="newDomain()">
+        <mat-icon>add</mat-icon>
+        new domain
+    </button>
+</div>
+
+<kitchen-domain-node *ngFor="let item of domains$ | async" [item]="item" (onUpdate)="refresh$.next()"></kitchen-domain-node>

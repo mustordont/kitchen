@@ -1,0 +1,24 @@
+@use 'variables';
+@forward 'variables';
+
+@mixin transition($customDuration: variables.$duration) {
+    transition: all $customDuration ease-in;
+}
+
+@mixin actionButton() {
+    .action {
+        @include transition();
+        opacity: 0;
+    }
+
+    &:hover {
+        .action {
+            opacity: 1;
+        }
+    }
+}
+
+@mixin tableCell() {
+    display: table-cell;
+    padding-left: variables.$padding;
+}

@@ -1,0 +1,15 @@
+@use 'mixins';
+
+:host {
+    .table {
+        display: table;
+
+        > * {
+            display: table-row;
+        }
+    }
+
+    .title {
+        width: 40%;
+    }
+}

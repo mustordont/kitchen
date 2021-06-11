@@ -1,0 +1,67 @@
+image: $DOCKER_REGISTRY/node:13.7.0-alpine
+
+stages:
+    - install
+    - build
+    - dockerize
+    - helm-template
+    - helm-push
+    - deploy
+    - rollback
+
+.common: &common
+    before_script:
+        - export APP_NAME=`awk -F "\"" '/name/{print $4; exit}' ./package.json`
+        - export VERSION=`awk -F "\"" '/version/{print $4; exit}' ./package.json`
+        - export DATE=`printf "$(date +%Y-%m-%dT%H-%M-%SZ)"`
+    tags:
+        - docker-new-bm1
+
+install:
+    stage: install
+    <<: *common
+    cache:
+        key: $CI_COMMIT_REF_SLUG-$CI_PROJECT_DIR
+        paths:
+            - node_modules/
+    rules:
+        - changes:
+              - package-lock.json
+        - when: manual
+          allow_failure: true
+    script:
+        - npm ci
+
+build:
+    stage: build
+    <<: *common
+    cache:
+        key: $CI_COMMIT_REF_SLUG-$CI_PROJECT_DIR
+        paths:
+            - node_modules/
+        policy: pull
+    rules:
+        - if: '$CI_COMMIT_REF_NAME == "master" || $CI_COMMIT_REF_NAME == "develop"'
+    script:
+        - npm run build
+    artifacts:
+        paths:
+            - dist/*
+
+dockerize:
+    stage: dockerize
+    <<: *common
+    image: $DOCKER_REGISTRY/dind:client
+    rules:
+        - if: '$CI_COMMIT_REF_NAME == "master" || $CI_COMMIT_REF_NAME == "develop"'
+    dependencies:
+        - build
+    script:
+        - docker login -u ${DOCKER_REGISTRY_LOGIN} -p ${DOCKER_REGISTRY_PASSWORD} ${DOCKER_REGISTRY}
+        - docker build .
+            --build-arg DOCKER_REGISTRY
+            -t $DOCKER_REGISTRY/kitchen:$VERSION
+        - docker push $DOCKER_REGISTRY/kitchen:$VERSION
+
+include:
+    -   local: '/tools/helm/.gitlab-k8s.yml'

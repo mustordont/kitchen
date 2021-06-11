@@ -1,0 +1,5 @@
+@import 'apps/kitchen/src/styles/variables';
+
+:host {
+    margin: $margin;
+}
